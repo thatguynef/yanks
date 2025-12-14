@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pete Conway | Team Nimbus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Montserrat:wght@400;700;900&family=Rock+Salt&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --dark: #1a1a1a;
+            --pink: #D23A54;
+            --blue: #253E7E;
+            --yellow: #FFD700;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+        }
+
+        .logo { 
+            font-family: 'Bangers', cursive;
+            letter-spacing: 2px;
+            font-size: 1.5rem; 
+            color: var(--yellow); 
+            text-shadow: 2px 2px var(--pink); 
+            text-decoration: none;
+        }
+        
+        .back-btn {
+            background-color: transparent;
+            color: white;
+            padding: 10px 25px;
+            font-weight: 900;
+            text-decoration: none;
+            border: 2px solid var(--pink);
+            text-transform: uppercase;
+            font-family: 'Bangers', cursive;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .back-btn:hover { background-color: var(--pink); color: white; }
+
+        /* --- Hero Section --- */
+        #bio-hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            /* CHANGED: Push content to the right to make room for the stamp on the left */
+            justify-content: flex-end; 
+            overflow: hidden;
+            background: black;
+        }
+
+        .bio-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            /* The 'Hands' Image */
+            background-image: url('/img/bios/hold-fast.png'); 
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(100%) contrast(140%) brightness(0.7);
+        }
+
+        .rain-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                105deg,
+                transparent 0,
+                transparent 5px,
+                rgba(255, 255, 255, 0.05) 6px
+            );
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* --- THE NEW STAMP IMAGE --- */
+        .stamp-img {
+            position: absolute;
+            bottom: -20px; /* Slight overlap off the bottom edge */
+            left: 5%;      /* Position on the left side */
+            width: 400px;  /* Desktop size */
+            height: auto;
+            z-index: 20;   /* Sit above background but below nav? High z-index */
+            border: 12px solid white; /* Polaroid/Photo border style */
+            box-shadow: 10px 10px 20px rgba(0,0,0,0.8);
+            transform: rotate(-4deg); /* Jaunty angle */
+            filter: contrast(110%);
+        }
+
+        .bio-content {
+            position: relative;
+            z-index: 10;
+            /* CHANGED: Margins to push text to right side */
+            margin-right: 10%; 
+            padding-top: 60px;
+            max-width: 600px;
+            width: 100%;
+            text-align: right; /* Right align the text block for style */
+        }
+
+        h1.sin-city-title {
+            font-family: 'Bangers', cursive;
+            font-size: 8rem;
+            line-height: 0.9;
+            text-transform: uppercase;
+            color: white;
+            text-shadow: 
+                5px 5px 0px #000,
+                -1px -1px 0 #000,  
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000;
+            margin-bottom: 30px;
+            transform: rotate(2deg); /* Rotated opposite to the stamp */
+        }
+
+        .stats-dossier {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-right: 8px solid var(--pink); /* Border on right now */
+            backdrop-filter: blur(2px);
+            box-shadow: -10px 10px 0px black; /* Shadow to left */
+            transform: skew(-3deg);
+            text-align: right;
+        }
+
+        .stat-row {
+            font-family: 'Rock Salt', cursive;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #ddd;
+            display: flex;
+            align-items: baseline;
+            justify-content: flex-end; /* Align items to right */
+            gap: 15px;
+            border-bottom: 1px dashed #444;
+            padding-bottom: 5px;
+            transform: skew(3deg);
+        }
+
+        .stat-label {
+            color: white;
+            font-family: 'Bangers', cursive;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0 black;
+        }
+
+        .stat-value {
+            color: var(--pink);
+            font-weight: bold;
+            text-shadow: 1px 1px 0 black;
+        }
+
+        /* --- MOBILE RESPONSIVE FIX --- */
+        @media (max-width: 768px) {
+            nav {
+                background: black;
+                position: relative;
+            }
+
+            #bio-hero {
+                height: auto;
+                min-height: 100vh;
+                flex-direction: column;
+                justify-content: flex-start; /* Reset justification */
+                background: var(--dark);
+            }
+
+            .bio-bg {
+                position: relative;
+                height: 45vh; /* Top half */
+                width: 100%;
+                background-size: contain; 
+                background-repeat: no-repeat;
+                background-position: top center;
+                filter: grayscale(100%) contrast(120%) brightness(0.9);
+                border-bottom: 4px solid var(--pink);
+            }
+
+            .rain-overlay { height: 45vh; }
+
+            /* Mobile Stamp Positioning */
+            .stamp-img {
+                width: 180px;      /* Smaller on mobile */
+                bottom: auto;      /* Clear desktop positioning */
+                left: 20px;
+                top: 35vh;         /* Overlap the seam between image and text */
+                border: 6px solid white;
+                transform: rotate(-6deg);
+            }
+
+            .bio-content {
+                margin-right: 0;
+                padding: 50px 20px 30px 20px; /* Added top padding to clear the overlapping stamp */
+                background: var(--dark);
+                max-width: 100%;
+                text-align: center; /* Center align on mobile */
+            }
+
+            h1.sin-city-title {
+                font-size: 4rem;
+                margin-top: 20px;
+                transform: rotate(0deg);
+                text-align: right; /* Align title to right so it doesn't hit stamp */
+            }
+
+            .stats-dossier {
+                transform: skew(0deg);
+                box-shadow: none;
+                background: transparent;
+                padding: 0;
+                border-right: none;
+                text-align: center;
+                margin-top: 30px;
+            }
+
+            .stat-row {
+                transform: skew(0deg);
+                flex-direction: column;
+                justify-content: center;
+                gap: 5px;
+                margin-bottom: 20px;
+                align-items: center;
+            }
+
+            .stat-label { font-size: 2rem; }
+            .stat-value { font-size: 1.5rem; }
+        }
+
+        footer {
+            background: black;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">TEAM NIMBUS</a>
+        <a href="index.html" class="back-btn">Back</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <div id="bio-hero">
+        <!-- Background Image Container -->
+        <div class="bio-bg"></div>
+        <div class="rain-overlay"></div>
+        
+        <!-- The New Stamp Image (Pete + Dog) -->
+        <!-- SAVE YOUR NEW IMAGE AS: pete-stamp.jpg -->
+        <img src="/img/bios/pete-and-buddy-sin-city.png" class="stamp-img" alt="Pete and Dog">
+        
+        <!-- Content Container -->
+        <div class="bio-content">
+            <h1 class="sin-city-title">Pete<br>Conway</h1>
+            
+            <div class="stats-dossier">
+                <div class="stat-row">
+                    <span class="stat-label">Nickname:</span>
+                    <span class="stat-value">"Pirate"</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Age:</span>
+                    <span class="stat-value">52</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Hometown:</span>
+                    <span class="stat-value">Topsfield, MA</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Souls Taken:</span>
+                    <span class="stat-value">47</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Years Rowing:</span>
+                    <span class="stat-value">45</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Team Nimbus. 
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        // Animations
+        gsap.from(".sin-city-title", {
+            duration: 1.5,
+            x: 50, /* Slide from right */
+            opacity: 0,
+            ease: "power4.out",
+            delay: 0.2
+        });
+
+        // Animate the stamp dropping in
+        gsap.from(".stamp-img", {
+            duration: 1.2,
+            scale: 2,
+            opacity: 0,
+            rotation: 10,
+            ease: "bounce.out",
+            delay: 0.5
+        });
+
+        gsap.from(".stat-row", {
+            duration: 0.8,
+            x: 30,
+            opacity: 0,
+            stagger: 0.1,
+            ease: "back.out(1.7)",
+            delay: 1.0
+        });
+    </script>
+</body>
+</html>
