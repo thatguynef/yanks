@@ -201,12 +201,50 @@
             align-items: center;
         }
 
+        .postcard-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
         .postcard-img {
             width: 100%;
             height: auto;
             border: 12px solid white;
             box-shadow: 0 30px 60px rgba(0,0,0,0.9);
             filter: contrast(110%) brightness(0.95);
+            backface-visibility: hidden;
+            transition: opacity 0.4s ease;
+        }
+
+        .postcard-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            border: 12px solid white;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            font-family: 'Rock Salt', cursive;
+            font-size: 2.5rem;
+            text-align: center;
+            padding: 40px;
+            color: var(--pink);
+            text-shadow: 3px 3px 0 black;
+        }
+
+        .postcard-wrapper:hover .postcard-img {
+            opacity: 0;
+        }
+
+        .postcard-wrapper:hover .postcard-back {
+            opacity: 1;
         }
 
         /* --- Bio Text Section --- */
@@ -338,6 +376,13 @@
                 box-shadow: 0 20px 40px rgba(0,0,0,0.9);
             }
 
+            .postcard-back {
+                border: 8px solid white;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+                font-size: 2rem;
+                padding: 30px;
+            }
+
             .bio-text {
                 padding: 40px 20px 60px;
                 font-size: 1rem;
@@ -410,8 +455,9 @@
             <div>
                 <img src="/img/bios/pete-stamp.jpeg" class="postcard-img" alt="Ocean rowing postcard - Having a whale of a time">
             </div>
-            <div>
+            <div class="postcard-wrapper">
                 <img src="/img/bios/pete-family.jpeg" class="postcard-img" alt="Family postcard - Wish you were here">
+                <div class="postcard-back">...instead of me.</div>
             </div>
         </div>
     </section>
