@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Yanks Are Coming | World's Toughest Row</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --dark: #2E2E2E;
+            --pink: #D23A54;
+            --blue: #253E7E;
+            --yellow: #FFD700;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Bangers', cursive; letter-spacing: 2px; }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+        }
+
+        .logo { font-size: 1.5rem; color: var(--yellow); text-shadow: 2px 2px var(--pink); }
+        
+        .donate-btn {
+            background-color: var(--pink);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 900;
+            text-decoration: none;
+            border: 3px solid white;
+            transition: transform 0.2s;
+            text-transform: uppercase;
+        }
+        .donate-btn:hover { transform: scale(1.1) rotate(-3deg); background-color: white; color: var(--pink); }
+
+        /* --- Hero Section & 3D --- */
+        #hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            text-align: center;
+            pointer-events: none; /* Let clicks pass through to 3D */
+            width: 80%;
+        }
+
+        h1 {
+            font-size: 5rem;
+            text-transform: uppercase;
+            color: white;
+            text-shadow: 4px 4px 0px var(--blue);
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 2rem;
+            color: var(--pink);
+            background: var(--dark);
+            display: inline-block;
+            padding: 5px 15px;
+            transform: skew(-10deg);
+        }
+
+        .countdown-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .count-box {
+            background: rgba(37, 62, 126, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid var(--pink);
+            min-width: 100px;
+        }
+        .count-number { font-size: 2.5rem; font-weight: 900; font-family: 'Bangers'; }
+        .count-label { font-size: 0.8rem; text-transform: uppercase; }
+
+        /* --- Sections --- */
+        section {
+            padding: 80px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3.5rem;
+            margin-bottom: 50px;
+            color: var(--yellow);
+        }
+
+        /* --- Top 10 Section --- */
+        #top-10 { background-color: var(--blue); }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .quote-card {
+            background: white;
+            color: var(--dark);
+            padding: 20px;
+            border-radius: 0;
+            position: relative;
+            box-shadow: 10px 10px 0px var(--dark);
+            transform: rotate(var(--rot));
+            transition: transform 0.3s;
+        }
+        .quote-card:hover { transform: scale(1.05) rotate(0deg); z-index: 20; }
+        .quote-card h4 { color: var(--pink); font-size: 1.2rem; margin-bottom: 10px; }
+        .quote-card p { font-style: italic; font-weight: 600; }
+
+        /* --- Dark Facts Section --- */
+        #dark-facts { background-color: var(--dark); border-top: 10px solid var(--pink); }
+        
+        .fact-card {
+            background: #3a3a3a;
+            border: 1px solid var(--pink);
+            padding: 30px;
+            text-align: center;
+        }
+        .fact-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
+        .fact-stat { font-size: 2.5rem; color: var(--pink); font-family: 'Bangers'; display: block; margin-bottom: 10px; }
+
+        /* --- Bryan Popup --- */
+        #bryan-container {
+            position: fixed;
+            bottom: -500px; /* Start hidden */
+            right: 20px;
+            width: 300px;
+            z-index: 9999;
+            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+        
+        #bryan-container.active { bottom: 0; }
+
+        .bubble {
+            position: absolute;
+            top: -60px;
+            right: 20px;
+            background: white;
+            color: black;
+            padding: 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+            opacity: 0;
+            transform: scale(0);
+            transition: 0.3s;
+        }
+        
+        .bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 20px;
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: white transparent;
+            display: block;
+            width: 0;
+        }
+
+        #bryan-container.active .bubble { opacity: 1; transform: scale(1); }
+
+        .bryan-img {
+            width: 100%;
+            filter: drop-shadow(5px 5px 10px black);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: black;
+            padding: 40px;
+            text-align: center;
+            color: #666;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .hero-overlay { width: 95%; }
+            #bryan-container { width: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Overlay -->
+    <div id="loader" style="position:fixed; top:0; left:0; width:100%; height:100%; background:var(--dark); z-index:99999; display:flex; justify-content:center; align-items:center; color:white; font-family:'Bangers'; font-size:2rem;">
+        Constructing the Atlantic...
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">TEAM NIMBUS</div>
+        <a href="https://www.gofundme.com/f/help-me-row-to-london" target="_blank" class="donate-btn">Give Us Money</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <div id="hero">
+        <div id="canvas-container"></div>
+        <div class="hero-overlay">
+            <h1>The Actual World's Toughest Row</h1>
+            <div class="tagline">THE YANKS ARE COMING</div>
+            
+            <div class="countdown-container">
+                <div class="count-box">
+                    <span id="days" class="count-number">00</span>
+                    <div class="count-label">Days</div>
+                </div>
+                <div class="count-box">
+                    <span id="hours" class="count-number">00</span>
+                    <div class="count-label">Hours</div>
+                </div>
+                <div class="count-box">
+                    <span id="minutes" class="count-number">00</span>
+                    <div class="count-label">Mins</div>
+                </div>
+            </div>
+            <p style="margin-top:20px; font-weight:bold;">Launch: May 31, 2026</p>
+        </div>
+    </div>
+
+    <!-- Top 10 Section -->
+    <section id="top-10">
+        <h2 class="section-title">Things People Ask Us<br><span style="font-size:1.5rem; color:white;">(And our internal monologue)</span></h2>
+        <div class="grid-container" id="quotes-grid">
+            <!-- JS will populate this -->
+        </div>
+    </section>
+
+    <!-- Dark Facts Section -->
+    <section id="dark-facts">
+        <h2 class="section-title" style="color:var(--pink)">Probable Causes of Death<br>& Other Fun Stats</h2>
+        <div class="grid-container">
+            <div class="fact-card">
+                <span class="fact-icon">🦈</span>
+                <span class="fact-stat">Marlins</span>
+                <p>Marlins have been known to pierce the hulls of row boats because they think we are rival fish. We are basically rowing a giant yellow fishing lure.</p>
+            </div>
+            <div class="fact-card">
+                <span class="fact-icon">📉</span>
+                <span class="fact-stat">25 lbs</span>
+                <p>Average weight loss per rower. It's the most expensive diet plan in human history. Side effects include hallucinations and salt sores.</p>
+            </div>
+            <div class="fact-card">
+                <span class="fact-icon">💩</span>
+                <span class="fact-stat">The Bucket</span>
+                <p>There is no bathroom. There is a bucket. And there are waves. You do the math (and the physics).</p>
+            </div>
+            <div class="fact-card">
+                <span class="fact-icon">🌊</span>
+                <span class="fact-stat">Rogue Waves</span>
+                <p>Waves can reach 40ft. The Nimbus is self-righting, meaning if we capsize, we spin around like laundry until we throw up.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Team Nimbus. We aren't curing cancer, but we are definitely curing our sanity.</p>
+        <p>Boston 🇺🇸 ➔ London 🇬🇧</p>
+    </footer>
+
+    <!-- Bryan Popup -->
+    <div id="bryan-container" onclick="window.open('https://www.gofundme.com/f/help-me-row-to-london', '_blank')">
+        <div class="bubble" id="bryan-text">Give me money!</div>
+        <!-- IMPORTANT: REPLACE THE SRC BELOW WITH YOUR CARTOON BRYAN IMAGE FILE -->
+        <img src="/img/bryan.png" alt="Captain Bryan" class="bryan-img">
+    </div>
+
+    <script>
+        // --- 1. COUNTDOWN TIMER ---
+        const launchDate = new Date("May 31, 2026 00:00:00").getTime();
+
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = launchDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById("days").innerText = days;
+            document.getElementById("hours").innerText = hours;
+            document.getElementById("minutes").innerText = minutes;
+        }, 1000);
+
+        // --- 2. POPULATE QUOTES ---
+        const quotes = [
+            { q: "Where do you sleep?", a: "In a closet that smells like wet dog and fear." },
+            { q: "What if you see a shark?", a: "We ask it for a donation." },
+            { q: "Are you crazy?", a: "Legally, we cannot answer that." },
+            { q: "Why London?", a: "We wanted to return the tea." },
+            { q: "Can I come?", a: "No. There is barely room for our egos." },
+            { q: "What do you eat?", a: "Dehydrated mush. It tastes like sadness." },
+        ];
+
+        const quotesGrid = document.getElementById('quotes-grid');
+        quotes.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'quote-card';
+            div.style.setProperty('--rot', (Math.random() * 6 - 3) + 'deg');
+            div.innerHTML = `<h4>"${item.q}"</h4><p>${item.a}</p>`;
+            quotesGrid.appendChild(div);
+        });
+
+        // --- 3. BRYAN POPUP LOGIC ---
+        const bryan = document.getElementById('bryan-container');
+        const bryanText = document.getElementById('bryan-text');
+        const phrases = ["Give me money!", "What do you mean sharks?", "I need snacks!", "Look at my hat!", "Click me!", "Yanks are coming!"];
+
+        function popBryan() {
+            bryan.classList.add('active');
+            bryanText.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+            
+            setTimeout(() => {
+                bryan.classList.remove('active');
+            }, 4000);
+        }
+
+        // Pop up every 10-20 seconds
+        setInterval(popBryan, 10000);
+        
+        // Also pop on scroll sometimes
+        window.addEventListener('scroll', () => {
+            if(Math.random() > 0.995) popBryan();
+        });
+
+
+        // --- 4. THREE.JS SCENE (The Good Stuff) ---
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x253E7E, 0.002);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 10, 20); // Zoomed in view
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x253E7E);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // Lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        dirLight.position.set(10, 20, 10);
+        scene.add(dirLight);
+
+        // Water (The Atlantic)
+        const waterGeometry = new THREE.PlaneGeometry(200, 200, 100, 100);
+        const waterMaterial = new THREE.MeshPhongMaterial({ 
+            color: 0x1E3A8A, 
+            shininess: 80,
+            flatShading: true,
+            vertexColors: false
+        });
+        const water = new THREE.Mesh(waterGeometry, waterMaterial);
+        water.rotation.x = -Math.PI / 2;
+        scene.add(water);
+
+        // Procedural Boat Generator (The Nimbus)
+        function createBoat() {
+            const boatGroup = new THREE.Group();
+
+            // Hull (Yellow)
+            const hullGeo = new THREE.BoxGeometry(2, 1, 6);
+            // Modify geometry to make it boat-shaped
+            const positionAttribute = hullGeo.attributes.position;
+            for ( let i = 0; i < positionAttribute.count; i ++ ) {
+                const y = positionAttribute.getY( i );
+                const z = positionAttribute.getZ( i );
+                if ( y < 0 ) {
+                    // Taper bottom
+                    const x = positionAttribute.getX( i );
+                    positionAttribute.setX( i, x * 0.7 );
+                }
+                if ( z > 2 || z < -2 ) {
+                    // Pointy ends
+                    const x = positionAttribute.getX( i );
+                    positionAttribute.setX( i, x * 0.1 );
+                }
+            }
+            hullGeo.computeVertexNormals();
+
+            const hullMat = new THREE.MeshLambertMaterial({ color: 0xFFD700 }); // Yellow
+            const hull = new THREE.Mesh(hullGeo, hullMat);
+            hull.position.y = 0.2;
+            boatGroup.add(hull);
+
+            // Grey Bottom
+            const bottomGeo = new THREE.BoxGeometry(1.8, 0.2, 5.8);
+            const bottomMat = new THREE.MeshLambertMaterial({ color: 0x555555 });
+            const bottom = new THREE.Mesh(bottomGeo, bottomMat);
+            bottom.position.y = -0.3;
+            boatGroup.add(bottom);
+
+            // Cabins (White/Yellow)
+            const cabinGeo = new THREE.BoxGeometry(1.5, 0.8, 1.5);
+            const cabin1 = new THREE.Mesh(cabinGeo, hullMat);
+            cabin1.position.set(0, 0.8, -1.5);
+            boatGroup.add(cabin1);
+            
+            const cabin2 = new THREE.Mesh(cabinGeo, hullMat);
+            cabin2.position.set(0, 0.8, 1.5);
+            boatGroup.add(cabin2);
+
+            // Solar Panels
+            const solarGeo = new THREE.PlaneGeometry(1.2, 1.2);
+            const solarMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
+            const solar1 = new THREE.Mesh(solarGeo, solarMat);
+            solar1.rotation.x = -Math.PI/2;
+            solar1.position.set(0, 1.21, -1.5);
+            boatGroup.add(solar1);
+
+            return boatGroup;
+        }
+
+        const boat = createBoat();
+        scene.add(boat);
+
+        // Sharks
+        const sharks = [];
+        const sharkGeo = new THREE.ConeGeometry(0.2, 0.5, 4);
+        const sharkMat = new THREE.MeshLambertMaterial({ color: 0x444444 });
+        
+        for(let i=0; i<5; i++) {
+            const shark = new THREE.Mesh(sharkGeo, sharkMat);
+            shark.position.set(Math.random()*10 - 5, -0.2, Math.random()*10 - 5);
+            shark.userData = { 
+                angle: Math.random() * Math.PI * 2, 
+                radius: 3 + Math.random() * 5, 
+                speed: 0.01 + Math.random() * 0.02 
+            };
+            scene.add(shark);
+            sharks.push(shark);
+        }
+
+        // Dotted Line (Route)
+        const lineGeo = new THREE.BufferGeometry();
+        const points = [];
+        for(let i=0; i<50; i++) {
+            points.push(new THREE.Vector3(i, 5, i)); // Placeholder logic
+        }
+        
+        // Let's create a curve representing the journey roughly
+        const curve = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(-30, 0, 10), // Boston-ish
+            new THREE.Vector3(0, 0, 5),    // Mid Atlantic
+            new THREE.Vector3(30, 0, -5)   // London-ish relative
+        ]);
+        
+        const pathPoints = curve.getPoints(50);
+        const routeGeo = new THREE.BufferGeometry().setFromPoints(pathPoints);
+        const routeMat = new THREE.LineDashedMaterial({
+            color: 0xD23A54,
+            linewidth: 2,
+            scale: 1,
+            dashSize: 1,
+            gapSize: 0.5,
+        });
+        const routeLine = new THREE.Line(routeGeo, routeMat);
+        routeLine.computeLineDistances();
+        // Just for visual effect, push the line slightly under water or above
+        routeLine.position.y = 0.5;
+        scene.add(routeLine);
+
+
+        // Animation Loop
+        let time = 0;
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.05;
+
+            // Animate Waves
+            const positionAttribute = waterGeometry.attributes.position;
+            for ( let i = 0; i < positionAttribute.count; i ++ ) {
+                const x = positionAttribute.getX( i );
+                const z = positionAttribute.getZ( i );
+                // Simple sine wave simulation
+                const zOffset = Math.sin( x * 0.5 + time ) * 0.5 + Math.cos( z * 0.3 + time ) * 0.5;
+                positionAttribute.setZ( i, zOffset );
+            }
+            positionAttribute.needsUpdate = true;
+            waterGeometry.computeVertexNormals();
+
+            // Bob the Boat
+            boat.position.y = Math.sin(time * 2) * 0.2;
+            boat.rotation.x = Math.sin(time) * 0.05;
+            boat.rotation.z = Math.cos(time * 0.8) * 0.05;
+
+            // Move Sharks
+            sharks.forEach(shark => {
+                shark.userData.angle += shark.userData.speed;
+                shark.position.x = Math.cos(shark.userData.angle) * shark.userData.radius;
+                shark.position.z = Math.sin(shark.userData.angle) * shark.userData.radius;
+                shark.rotation.y = -shark.userData.angle; // Face direction
+                
+                // Make shark bob slightly with waves
+                shark.position.y = Math.sin(shark.position.x + time) * 0.3 - 0.5;
+            });
+
+            // Camera drift
+            camera.position.x = Math.sin(time * 0.1) * 2;
+            camera.lookAt(0, 0, 0);
+
+            renderer.render(scene, camera);
+        }
+
+        // Handle Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Start
+        document.getElementById('loader').style.display = 'none';
+        animate();
+
+    </script>
+</body>
+</html>
