@@ -66,7 +66,6 @@
             position: relative;
             display: flex;
             align-items: center;
-            /* CHANGED: Push content to the right to make room for the stamp on the left */
             justify-content: flex-end; 
             overflow: hidden;
             background: black;
@@ -79,7 +78,6 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            /* The 'Hands' Image */
             background-image: url('/img/bios/hold-fast.png'); 
             background-size: cover;
             background-position: center;
@@ -102,29 +100,36 @@
             pointer-events: none;
         }
 
-        /* --- THE NEW STAMP IMAGE --- */
         .stamp-img {
             position: absolute;
-            bottom: -20px; /* Slight overlap off the bottom edge */
-            left: 5%;      /* Position on the left side */
-            width: 400px;  /* Desktop size */
-            height: auto;
-            z-index: 20;   /* Sit above background but below nav? High z-index */
-            border: 12px solid white; /* Polaroid/Photo border style */
+            z-index: 20;
+            border: 12px solid white;
             box-shadow: 10px 10px 20px rgba(0,0,0,0.8);
-            transform: rotate(-4deg); /* Jaunty angle */
             filter: contrast(110%);
+        }
+
+        .stamp1 {
+            bottom: -20px;
+            left: 5%;
+            width: 400px;
+            transform: rotate(-4deg);
+        }
+
+        .stamp2 {
+            top: 10%;
+            left: 8%;
+            width: 350px;
+            transform: rotate(8deg);
         }
 
         .bio-content {
             position: relative;
             z-index: 10;
-            /* CHANGED: Margins to push text to right side */
             margin-right: 10%; 
             padding-top: 60px;
             max-width: 600px;
             width: 100%;
-            text-align: right; /* Right align the text block for style */
+            text-align: right;
         }
 
         h1.sin-city-title {
@@ -140,15 +145,15 @@
                 -1px 1px 0 #000,
                 1px 1px 0 #000;
             margin-bottom: 30px;
-            transform: rotate(2deg); /* Rotated opposite to the stamp */
+            transform: rotate(2deg);
         }
 
         .stats-dossier {
             background: rgba(0, 0, 0, 0.7);
             padding: 30px;
-            border-right: 8px solid var(--pink); /* Border on right now */
+            border-right: 8px solid var(--pink);
             backdrop-filter: blur(2px);
-            box-shadow: -10px 10px 0px black; /* Shadow to left */
+            box-shadow: -10px 10px 0px black;
             transform: skew(-3deg);
             text-align: right;
         }
@@ -160,7 +165,7 @@
             color: #ddd;
             display: flex;
             align-items: baseline;
-            justify-content: flex-end; /* Align items to right */
+            justify-content: flex-end;
             gap: 15px;
             border-bottom: 1px dashed #444;
             padding-bottom: 5px;
@@ -181,7 +186,61 @@
             text-shadow: 1px 1px 0 black;
         }
 
-        /* --- MOBILE RESPONSIVE FIX --- */
+        /* --- Postcards Section --- */
+        .postcards-section {
+            padding: 120px 8% 100px;
+            background: var(--dark);
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .postcards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .postcard-img {
+            width: 100%;
+            height: auto;
+            border: 12px solid white;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.9);
+            filter: contrast(110%) brightness(0.95);
+        }
+
+        /* --- Bio Text Section --- */
+        .bio-text {
+            padding: 60px 20px 80px;
+            max-width: 1000px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .bio-text p {
+            margin-bottom: 30px;
+        }
+
+        .bio-text strong {
+            color: var(--pink);
+        }
+
+        /* --- Bass Sign Section --- */
+        .bass-sign {
+            padding: 60px 20px 40px;
+            text-align: center;
+            background: var(--dark);
+        }
+
+        .bass-sign img {
+            max-width: 600px;
+            width: 90%;
+            height: auto;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
+        }
+
+        /* --- MOBILE RESPONSIVE --- */
         @media (max-width: 768px) {
             nav {
                 background: black;
@@ -192,13 +251,13 @@
                 height: auto;
                 min-height: 100vh;
                 flex-direction: column;
-                justify-content: flex-start; /* Reset justification */
+                justify-content: flex-start;
                 background: var(--dark);
             }
 
             .bio-bg {
                 position: relative;
-                height: 45vh; /* Top half */
+                height: 45vh;
                 width: 100%;
                 background-size: contain; 
                 background-repeat: no-repeat;
@@ -209,29 +268,38 @@
 
             .rain-overlay { height: 45vh; }
 
-            /* Mobile Stamp Positioning */
             .stamp-img {
-                width: 180px;      /* Smaller on mobile */
-                bottom: auto;      /* Clear desktop positioning */
-                left: 20px;
-                top: 35vh;         /* Overlap the seam between image and text */
+                width: 180px;
                 border: 6px solid white;
+            }
+
+            .stamp1 {
+                bottom: auto;
+                left: 20px;
+                top: 35vh;
                 transform: rotate(-6deg);
+            }
+
+            .stamp2 {
+                top: 80px;
+                left: 50%;
+                transform: translateX(-50%) rotate(8deg);
+                width: 200px;
             }
 
             .bio-content {
                 margin-right: 0;
-                padding: 50px 20px 30px 20px; /* Added top padding to clear the overlapping stamp */
+                padding: 50px 20px 30px 20px;
                 background: var(--dark);
                 max-width: 100%;
-                text-align: center; /* Center align on mobile */
+                text-align: center;
             }
 
             h1.sin-city-title {
                 font-size: 4rem;
                 margin-top: 20px;
                 transform: rotate(0deg);
-                text-align: right; /* Align title to right so it doesn't hit stamp */
+                text-align: right;
             }
 
             .stats-dossier {
@@ -255,6 +323,33 @@
 
             .stat-label { font-size: 2rem; }
             .stat-value { font-size: 1.5rem; }
+
+            .postcards-section {
+                padding: 60px 20px 40px;
+            }
+
+            .postcards-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .postcard-img {
+                border: 8px solid white;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+            }
+
+            .bio-text {
+                padding: 40px 20px 60px;
+                font-size: 1rem;
+            }
+
+            .bass-sign {
+                padding: 40px 20px 30px;
+            }
+
+            .bass-sign img {
+                width: 95%;
+            }
         }
 
         footer {
@@ -276,15 +371,11 @@
 
     <!-- Hero Section -->
     <div id="bio-hero">
-        <!-- Background Image Container -->
         <div class="bio-bg"></div>
         <div class="rain-overlay"></div>
         
-        <!-- The New Stamp Image (Pete + Dog) -->
-        <!-- SAVE YOUR NEW IMAGE AS: pete-stamp.jpg -->
-        <img src="/img/bios/pete-and-buddy-sin-city.png" class="stamp-img" alt="Pete and Dog">
-        
-        <!-- Content Container -->
+        <img src="/img/bios/pete-and-buddy-sin-city.png" class="stamp-img stamp1" alt="Pete and Dog">
+
         <div class="bio-content">
             <h1 class="sin-city-title">Pete<br>Conway</h1>
             
@@ -313,29 +404,69 @@
         </div>
     </div>
 
+    <!-- Postcards Section -->
+    <section class="postcards-section">
+        <div class="postcards-grid">
+            <div>
+                <img src="/img/bios/pete-stamp.jpeg" class="postcard-img" alt="Ocean rowing postcard - Having a whale of a time">
+            </div>
+            <div>
+                <img src="/img/bios/pete-family.jpeg" class="postcard-img" alt="Family postcard - Wish you were here">
+            </div>
+        </div>
+    </section>
+
+    <!-- Bio Text Section -->
+    <section class="bio-text">
+        <p>Meet Pete Conway, a passionate adventurer and excited new member of the London Calling Ocean rowing team. With over 40 years of rowing experience, Pete brings a wealth of knowledge and skill to the team. A lifelong explorer, Pete has spent decades sailing, surfing, and rowing across the globe, developing a deep appreciation for the power and rhythm of the ocean. Supported by his amazing wife and three awesome daughters, Pete is eager to contribute to the team’s mission and share his passion for adventure with his fellow rowers as they take on the challenging task of rowing across the Atlantic.</p>
+        
+        <p>Pete has chosen to row for two incredible charities: <strong>The Boston House</strong> and <strong>Combined Jewish Philanthropies (CJP)</strong>.</p>
+        
+        <p>The Boston House provides a home away from home for children with cancer and their families. Imagine the comfort and support it offers during such a challenging time. By supporting Pete, you’re helping to ensure that these families have access to essential resources and a safe, welcoming environment.</p>
+        
+        <p>CJP’s Center for Combating Antisemitism is working tirelessly to combat the rise of anti-Jewish hate in Greater Boston. Your support will help fund vital programs, education initiatives, and community outreach efforts. Together, we can create a more inclusive and tolerant society for all.</p>
+        
+        <p>Join Pete’s journey and make a tangible difference. Your donation will help him reach his goal and support these two vital charities. Let’s show our support for Pete and his noble cause!</p>
+        
+        <p>Pete and his wife, Lucy live in Topsfield, MA with their kids.</p>
+    </section>
+
+    <!-- Awesome Bass Sign -->
+    <div class="bass-sign">
+        <img src="/img/g-funk.png" alt="The Rhythm Is The Bass And The Bass Is The Treble">
+    </div>
+
     <footer>
         &copy; 2026 Team Nimbus. 
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
-        // Animations
         gsap.from(".sin-city-title", {
             duration: 1.5,
-            x: 50, /* Slide from right */
+            x: 50,
             opacity: 0,
             ease: "power4.out",
             delay: 0.2
         });
 
-        // Animate the stamp dropping in
-        gsap.from(".stamp-img", {
+        gsap.from(".stamp1", {
             duration: 1.2,
             scale: 2,
             opacity: 0,
             rotation: 10,
             ease: "bounce.out",
             delay: 0.5
+        });
+
+        gsap.from(".stamp2", {
+            duration: 1.4,
+            scale: 0,
+            opacity: 0,
+            rotation: -20,
+            ease: "elastic.out(1, 0.5)",
+            delay: 0.8
         });
 
         gsap.from(".stat-row", {
@@ -345,6 +476,41 @@
             stagger: 0.1,
             ease: "back.out(1.7)",
             delay: 1.0
+        });
+
+        gsap.from(".postcards-grid > div", {
+            duration: 1.2,
+            y: 80,
+            opacity: 0,
+            stagger: 0.3,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".postcards-section",
+                start: "top 80%"
+            }
+        });
+
+        gsap.from(".bio-text p", {
+            duration: 1,
+            y: 40,
+            opacity: 0,
+            stagger: 0.15,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: ".bio-text",
+                start: "top 80%"
+            }
+        });
+
+        gsap.from(".bass-sign img", {
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: ".bass-sign",
+                start: "top 90%"
+            }
         });
     </script>
 </body>

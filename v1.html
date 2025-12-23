@@ -6,8 +6,7 @@
     <title>The Yanks Are Coming | World's Toughest Row</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
-    <!-- Import Map for Three.js (for the Earth section) -->
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Montserrat:wght@400;700;900&family=Black+Ops+One&display=swap" rel="stylesheet">
     <script type="importmap">
         {
             "imports": {
@@ -88,7 +87,7 @@
             left: 5%;
             z-index: 2;
             text-align: left;
-            pointer-events: none; /* Let clicks pass through if needed */
+            pointer-events: none;
             width: 50%;
         }
 
@@ -141,8 +140,10 @@
             color: var(--yellow);
         }
 
-        /* --- Top 10 Section --- */
-        #top-10 { background-color: var(--blue); }
+        /* --- Things People Ask Us Section --- */
+        #things-people-ask {
+            background-color: var(--blue);
+        }
         
         .grid-container {
             display: grid;
@@ -178,7 +179,7 @@
         .fact-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
         .fact-stat { font-size: 2.5rem; color: var(--pink); font-family: 'Bangers'; display: block; margin-bottom: 10px; }
 
-        /* --- Earth Section Styles (Adapted from provided code) --- */
+        /* --- Earth Section Styles --- */
         #earth-section {
             height: 100vh;
             width: 100%;
@@ -236,7 +237,6 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        /* Team Section in Earth */
         .earth-team-container {
             position: absolute;
             top: 50%;
@@ -253,7 +253,6 @@
             color: white;
         }
 
-        /* Countdown in Earth Section */
         .earth-countdown-container {
             text-align: center;
             margin-bottom: 2rem;
@@ -290,7 +289,6 @@
             text-transform: uppercase;
         }
 
-        /* Mobile adjustments for Earth Section */
         @media (max-width: 768px) {
             #earth-header h2 { font-size: 2.5rem; }
             .earth-team-container {
@@ -312,7 +310,7 @@
         /* --- Bryan Popup --- */
         #bryan-container {
             position: fixed;
-            bottom: -500px; /* Start hidden */
+            bottom: -500px;
             right: 20px;
             width: 300px;
             z-index: 9999;
@@ -364,7 +362,7 @@
             color: #666;
         }
 
-        /* Mobile Adjustments (General) */
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
             h1 { font-size: 3rem; }
             .hero-overlay { 
@@ -383,6 +381,116 @@
             .count-number { font-size: 2rem; }
             #bryan-container { width: 200px; }
         }
+
+        /* Mission Section with Parallax Background */
+        #the-mission {
+            padding: 160px 20px;
+            background: url('/img/nimbus.png') center center / cover no-repeat fixed;
+            position: relative;
+            overflow: hidden;
+            min-height: 80vh;
+        }
+        
+        #the-mission::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.65);
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        #the-mission::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(210,58,84,0.08) 40px, rgba(210,58,84,0.08) 80px),
+                        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(210,58,84,0.08) 40px, rgba(210,58,84,0.08) 80px);
+            pointer-events: none;
+            opacity: 0.5;
+            z-index: 1;
+        }
+        
+        #mission-briefing::after {
+            content: '_';
+            animation: blink 0.8s infinite;
+            color: var(--pink);
+            text-shadow: 0 0 15px var(--pink);
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        @media (max-width: 768px) {
+            #the-mission h2 { font-size: 3.5rem !important; }
+            #mission-briefing { font-size: 1.6rem; padding: 30px 20px; }
+        }
+
+        /* NEW: Parallax styles for both Mission and Top-10 sections */
+        .parallax-section {
+            padding: 160px 20px;
+            background-attachment: fixed;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            overflow: hidden;
+            min-height: 80vh;
+        }
+
+        .parallax-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.65);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .parallax-section::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(210,58,84,0.08) 40px, rgba(210,58,84,0.08) 80px),
+                        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(210,58,84,0.08) 40px, rgba(210,58,84,0.08) 80px);
+            pointer-events: none;
+            opacity: 0.5;
+            z-index: 1;
+        }
+
+        .parallax-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Override specific background for each */
+        #the-mission {
+            background-image: url('/img/nimbus.png');
+        }
+
+        #top-10 {
+            background-image: url('/img/nimbus.png'); /* Reuse same image or change to another if desired */
+            background-color: transparent; /* Remove the old blue background */
+        }
+
+        /* Adjust title color for visibility on parallax */
+        #top-10 .section-title {
+            color: var(--yellow);
+            text-shadow: 4px 4px 10px black;
+        }
+
+        /* Mobile fallback: fixed backgrounds don't work well on mobile */
+        @media (max-width: 768px) {
+            .parallax-section {
+                background-attachment: scroll;
+            }
+            #the-mission h2 { font-size: 3.5rem !important; }
+        }
     </style>
 </head>
 <body>
@@ -400,7 +508,6 @@
 
     <!-- Hero Section -->
     <div id="hero">
-        <!-- Placeholder video: Replace 'placeholder-ocean.mp4' with your actual video file URL/path (e.g., an ocean/rowing-themed video from a stock source like Pexels or your assets). Recommended: MP4 format, 1920x1080, ~10-30s loopable clip. -->
         <video id="hero-video" autoplay loop muted playsinline>
             <source src="/video/video.mp4" type="video/mp4">
             Your browser does not support the video tag.
@@ -427,15 +534,28 @@
         </div>
     </div>
 
-    <!-- Top 10 Section -->
-    <section id="top-10">
-        <h2 class="section-title">Things People Ask Us<br><span style="font-size:1.5rem; color:white;">(And our internal monologue)</span></h2>
-        <div class="grid-container" id="quotes-grid">
-            <!-- JS will populate this -->
+<!-- Mission Section (unchanged structure) -->
+    <section id="the-mission" class="parallax-section">
+        <div class="parallax-content">
+            <h2 style="font-family: 'Black Ops One', cursive; font-size: 5rem; color: #FFD700; text-transform: uppercase; letter-spacing: 6px; text-shadow: 0 0 20px rgba(210,58,84,0.8), 4px 4px 10px black; margin-bottom: 60px;">The Mission</h2>
+            
+            <div id="mission-briefing" style="font-family: 'Black Ops One', cursive; font-size: 2.2rem; line-height: 1.5; color: #FFD700; text-transform: uppercase; letter-spacing: 3px; white-space: pre-wrap; min-height: 250px; padding: 50px; display: inline-block; background: rgba(0,0,0,0.75); border: 4px solid var(--pink); border-radius: 10px; box-shadow: 0 0 30px rgba(210,58,84,0.6);">
+                <!-- Typing effect will fill this -->
+            </div>
         </div>
     </section>
 
-    <!-- Dark Facts Section -->
+    <!-- MOVED: Things People Ask Us (Top 10) now comes right after Mission -->
+    <section id="top-10" class="parallax-section">
+        <div class="parallax-content">
+            <h2 class="section-title">Things People Ask Us<br><span style="font-size:1.5rem; color:white;">(And our internal monologue)</span></h2>
+            <div class="grid-container" id="quotes-grid">
+                <!-- JS will populate this -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Dark Facts Section (unchanged) -->
     <section id="dark-facts">
         <h2 class="section-title" style="color:var(--pink)">Probable Causes of Death<br>& Other Fun Stats</h2>
         <div class="grid-container">
@@ -462,7 +582,7 @@
         </div>
     </section>
 
-    <!-- New Earth Section -->
+    <!-- Earth Section -->
     <section id="earth-section">
         <div id="earth-ui-layer">
             <div id="earth-header">
@@ -498,31 +618,26 @@
     <!-- Bryan Popup -->
     <div id="bryan-container" onclick="window.open('https://www.gofundme.com/f/help-me-row-to-london', '_blank')">
         <div class="bubble" id="bryan-text">Give me money!</div>
-        <!-- IMPORTANT: REPLACE THE SRC BELOW WITH YOUR CARTOON BRYAN IMAGE FILE -->
         <img src="/img/bryan.png" alt="Captain Bryan" class="bryan-img">
     </div>
 
     <script type="module">
-        // Earth Section Three.js Script (Scoped to Earth Section)
+        // Earth Section Three.js Script
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-        // --- Configuration ---
         const BOSTON_COORDS = { lat: 42.3601, lon: -71.0589 };
         const LONDON_COORDS = { lat: 51.5072, lon: -0.1276 };
         const EARTH_RADIUS = 10;
 
-        // --- Scene Setup ---
         const container = document.getElementById('earth-canvas-container');
         const scene = new THREE.Scene();
         
-        // Camera
         const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
         camera.position.z = 35;
         camera.position.y = 10;
         camera.position.x = 10;
 
-        // Renderer
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(container.clientWidth, container.clientHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -530,7 +645,6 @@
         renderer.outputColorSpace = THREE.SRGBColorSpace;
         container.appendChild(renderer.domElement);
 
-        // Controls
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
@@ -540,7 +654,6 @@
         controls.minDistance = 15;
         controls.maxDistance = 60;
 
-        // --- Lighting ---
         const ambientLight = new THREE.AmbientLight(0x404040, 2);
         scene.add(ambientLight);
 
@@ -548,13 +661,11 @@
         sunLight.position.set(50, 20, 30);
         scene.add(sunLight);
 
-        // --- The Earth ---
         const loader = new THREE.TextureLoader();
         
         const earthGroup = new THREE.Group();
         scene.add(earthGroup);
 
-        // Earth Sphere
         const earthGeometry = new THREE.SphereGeometry(EARTH_RADIUS, 64, 64);
         const earthMaterial = new THREE.MeshPhongMaterial({
             map: loader.load('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg'),
@@ -567,10 +678,9 @@
         const earth = new THREE.Mesh(earthGeometry, earthMaterial);
         earthGroup.add(earth);
 
-        // Atmosphere Glow
         const atmoGeometry = new THREE.SphereGeometry(EARTH_RADIUS + 0.2, 64, 64);
         const atmoMaterial = new THREE.MeshBasicMaterial({
-            color: 0xD23A54, // Pink to match theme
+            color: 0xD23A54,
             transparent: true,
             opacity: 0.15,
             side: THREE.BackSide,
@@ -579,7 +689,6 @@
         const atmosphere = new THREE.Mesh(atmoGeometry, atmoMaterial);
         earthGroup.add(atmosphere);
 
-        // --- Helper: Lat/Lon to Vector3 ---
         function latLonToVector3(lat, lon, radius) {
             const phi = (90 - lat) * (Math.PI / 180);
             const theta = (lon + 180) * (Math.PI / 180);
@@ -591,7 +700,6 @@
             return new THREE.Vector3(x, y, z);
         }
 
-        // --- The Route (Boston to London) ---
         const start = latLonToVector3(BOSTON_COORDS.lat, BOSTON_COORDS.lon, EARTH_RADIUS);
         const end = latLonToVector3(LONDON_COORDS.lat, LONDON_COORDS.lon, EARTH_RADIUS);
 
@@ -603,15 +711,12 @@
         const curveGeometry = new THREE.BufferGeometry().setFromPoints(points);
 
         const tubeGeometry = new THREE.TubeGeometry(curve, 64, 0.08, 8, false);
-        const tubeMaterial = new THREE.MeshBasicMaterial({ 
-            color: 0xD23A54, // Pink route to match theme
-        });
+        const tubeMaterial = new THREE.MeshBasicMaterial({ color: 0xD23A54 });
         const routeMesh = new THREE.Mesh(tubeGeometry, tubeMaterial);
         earthGroup.add(routeMesh);
 
-        // Markers
         const markerGeo = new THREE.SphereGeometry(0.15, 16, 16);
-        const markerMat = new THREE.MeshBasicMaterial({ color: 0xFFD700 }); // Yellow markers
+        const markerMat = new THREE.MeshBasicMaterial({ color: 0xFFD700 });
         
         const startMarker = new THREE.Mesh(markerGeo, markerMat);
         startMarker.position.copy(start);
@@ -621,7 +726,6 @@
         endMarker.position.copy(end);
         earthGroup.add(endMarker);
 
-        // --- Stars Background ---
         const starGeo = new THREE.BufferGeometry();
         const starCount = 2000;
         const starPos = new Float32Array(starCount * 3);
@@ -633,7 +737,6 @@
         const stars = new THREE.Points(starGeo, starMat);
         scene.add(stars);
 
-        // --- Animation Loop ---
         function animate() {
             requestAnimationFrame(animate);
             controls.update();
@@ -642,7 +745,6 @@
         }
         animate();
 
-        // --- Window Resize Handling (Scoped to Earth Container) ---
         window.addEventListener('resize', () => {
             camera.aspect = container.clientWidth / container.clientHeight;
             camera.updateProjectionMatrix();
@@ -651,10 +753,10 @@
     </script>
 
     <script>
-        // Hide loader immediately since no heavy 3D init
+        // Hide loader
         document.getElementById('loader').style.display = 'none';
 
-        // --- 1. COUNTDOWN TIMER (Hero Section) ---
+        // Countdown timers
         const launchDate = new Date("May 31, 2026 00:00:00").getTime();
 
         setInterval(() => {
@@ -668,23 +770,13 @@
             document.getElementById("days").innerText = days.toString().padStart(2, '0');
             document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
             document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
-        }, 1000);
-
-        // --- 2. EARTH COUNTDOWN TIMER (Matching Hero) ---
-        setInterval(() => {
-            const now = new Date().getTime();
-            const distance = launchDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 
             document.getElementById("earth-days").innerText = days.toString().padStart(2, '0');
             document.getElementById("earth-hours").innerText = hours.toString().padStart(2, '0');
             document.getElementById("earth-minutes").innerText = minutes.toString().padStart(2, '0');
         }, 1000);
 
-        // --- 3. POPULATE QUOTES ---
+        // Populate quotes
         const quotes = [
             { q: "Where do you sleep?", a: "In a closet that smells like wet dog and fear." },
             { q: "What if you see a shark?", a: "We ask it for a donation." },
@@ -703,7 +795,52 @@
             quotesGrid.appendChild(div);
         });
 
-        // --- 4. BRYAN POPUP LOGIC ---
+        // Mission typing effect
+        const missionText = `AN ENTIRE OCEAN. NO HELP.
+
+    FOUR MEN ROWING NON-STOP FROM BOSTON TO LONDON—PAST MONSTERS, MADNESS, AND WHATEVER ELSE THE ATLANTIC THROWS AT THEM.`;
+
+        const briefingElement = document.getElementById('mission-briefing');
+        briefingElement.innerHTML = '';
+
+        let i = 0;
+        const typeSpeed = 8;
+        const linePause = 1000;
+
+        function typeWriter() {
+            if (i < missionText.length) {
+                const char = missionText.charAt(i);
+                const span = document.createElement('span');
+                span.textContent = char;
+                span.classList.add('typed-char');
+                briefingElement.insertBefore(span, briefingElement.querySelector('::after'));
+                
+                i++;
+                
+                if (char === '\n') {
+                    setTimeout(typeWriter, linePause);
+                } else {
+                    setTimeout(typeWriter, typeSpeed + Math.random() * 60);
+                }
+            } else {
+                briefingElement.style.setProperty('::after', 'content: none');
+            }
+        }
+
+        const missionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && i === 0) {
+                    typeWriter();
+                    missionObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.4 });
+
+        if (document.getElementById('the-mission')) {
+            missionObserver.observe(document.getElementById('the-mission'));
+        }
+
+        // Bryan popup
         const bryan = document.getElementById('bryan-container');
         const bryanText = document.getElementById('bryan-text');
         const phrases = ["Give me money!", "What do you mean sharks?", "I need snacks!", "Look at my hat!", "Click me!", "Yanks are coming!"];
@@ -717,17 +854,10 @@
             }, 4000);
         }
 
-        // Pop up every 10-20 seconds
         setInterval(popBryan, 10000);
         
-        // Also pop on scroll sometimes
         window.addEventListener('scroll', () => {
             if(Math.random() > 0.995) popBryan();
-        });
-
-        // Optional: Ensure video plays on user interaction (for mobile/iOS compatibility)
-        document.getElementById('hero-video').addEventListener('loadeddata', function() {
-            this.play().catch(e => console.log('Autoplay prevented:', e));
         });
     </script>
 </body>
